@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pesquisa de Pessoas</title>
+  </head>
+  <body>
+    <h1>Pesquisa de Pessoas</h1>
+    <label for="busca">Buscar por nome:</label>
+    <input type="text" id="busca" name="busca">
+    <button type="button" id="buscar">Buscar</button>
+    <br><br>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Idade</th>
+          <th>E-mail</th>
+        </tr>
+      </thead>
+      <tbody id="resultados">
+      </tbody>
+    </table>
+
+    <script>
+      // função para buscar as informações no localStorage
+      function buscarPessoa() {
+        // limpar a tabela de resultados
+        const resultados = document.getElementById('resultados');
+        resultados.innerHTML = '';
+
+        // pegar o valor do campo de busca
+        const busca = document.getElementById('busca').value;
+
+        // percorrer todas as chaves do localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+          const chave = localStorage.key(i);
+
+          // se a chave contém o valor digitado na busca
+          if (chave.includes(busca)) {
+            // pegar o objeto correspondente e criar uma linha na tabela
+            const pessoa = JSON.parse(localStorage.getItem(chave));
+            const linha = document.createElement('tr');
+            linha.innerHTML = `
+              <td>${pessoa.nome}</td>
+              <td>${pessoa.telefone}</td>
+              <td>${pessoa.CPF}</td>
+            `;
+            resultados.appendChild(linha);
+          }
+        }
+      }
+
+      // adicionar um evento de clique ao botão de busca
+      const botaoBuscar = document.getElementById('buscar');
+      botaoBuscar.addEventListener('click', buscarPessoa);
+    </script>
+  </body>
+</html>

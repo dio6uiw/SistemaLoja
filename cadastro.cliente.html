@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Agenda</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+	</style>
+	<link rel="stylesheet" href="style.cad.cliente.css">
+</head>
+<body>
+	<h1>Agenda</h1>
+	<form id="form-cadastro">
+		<label for="nome">Nome:</label><br>
+		<input type="text" id="nome" required>
+		<label for="email">E-mail:</label><br>
+		<input type="email" id="email" required>
+		<label for="telefone">Telefone:</label><br>
+		<input type="tel" id="telefone" required>
+		<button type="submit">Cadastrar</button>
+	</form>
+	<label for="busca">Buscar:</label>
+	<input type="text" id="busca">
+	<table id="tabela">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>E-mail</th>
+				<th>Telefone</th>
+				<th>Venda</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<script>
+		const formCadastro = document.querySelector('#form-cadastro');
+		const inputNome = document.querySelector('#nome');
+		const inputEmail = document.querySelector('#email');
+		const inputTelefone = document.querySelector('#telefone');
+		const tabela = document.querySelector('#tabela tbody');
+		const inputBusca = document.querySelector('#busca');
+
+		let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+
+		function cadastrarPessoa(event) {
+			event.preventDefault();
+			
+			const pessoa = {
+				nome: inputNome.value,
+				email: inputEmail.value,
+				telefone: inputTelefone.value,
+			};
+
+			pessoas.push(pessoa);
+
+			atualizarTabela();
+			formCadastro.reset();
+			salvarDados();
+		}
+
+		function atualizarTabela() {
+			tabela.innerHTML = '';
+
+			pessoas.forEach(pessoa => {
+				const tr = document.createElement('tr');
+				const tdNome = document.createElement('td');
+				const tdEmail = document.createElement('td');
+				const tdTelefone = document.createElement('td');
+				const tdVenda = document.createElement('td');
+				const botaoVenda = document.createElement('button');
+
+				tdNome.innerText = pessoa.nome;
+				tdEmail.innerText = pessoa.email;
+				tdTelefone.innerText = pessoa.telefone;
+				botaoVenda.innerText = 'Cadastrar venda';
+
+				botaoVenda.addEventListener('click', () => cadastrarVenda(pessoa));
+
+				tdVenda.appendChild(botaoVenda);
+
+				tr.appendChild(tdNome);
+				tr.appendChild(tdEmail);
+				tr.appendChild(tdTelefone);
+				tr.appendChild(tdVenda);
+
+				tabela.appendChild(tr);
+			});
+		}
+
+		function buscarPessoa() {
+			const termoBusca = inputBusca.value.toLowerCase();
+
+			const pessoasFiltradas = pessoas.filter(pessoa => {
+				const nome = pessoa.nome.toLowerCase();
+			return nome.includes(termoBusca);
+		});
+
+		tabela.innerHTML = '';
+
+		pessoasFiltradas.forEach(pessoa => {
+			const tr = document.createElement('tr');
+			const tdNome = document.createElement('td');
+			const tdEmail = document.createElement('td');
+			const tdTelefone = document.createElement('td');
+			const tdVenda = document.createElement('td');
+			const botaoVenda = document.createElement('button');
+
+			tdNome.innerText = pessoa.nome;
+			tdEmail.innerText = pessoa.email;
+			tdTelefone.innerText = pessoa.telefone;
+			botaoVenda.innerText = 'Cadastrar venda';
+
+			botaoVenda.addEventListener('click', () => cadastrarVenda(pessoa));
+
+			tdVenda.appendChild(botaoVenda);
+
+			tr.appendChild(tdNome);
+			tr.appendChild(tdEmail);
+			tr.appendChild(tdTelefone);
+			tr.appendChild(tdVenda);
+
+			tabela.appendChild(tr);
+		});
+	}
+
+	function cadastrarVenda(pessoa) {
+		const queryString = `?nome=${encodeURIComponent(pessoa.nome)}&email=${encodeURIComponent(pessoa.email)}&telefone=${encodeURIComponent(pessoa.telefone)}`;
+		window.location.href = `cadastro_venda.html${queryString}`;
+	}
+
+	function salvarDados() {
+		localStorage.setItem('pessoas', JSON.stringify(pessoas));
+	}
+
+	atualizarTabela();
+
+	formCadastro.addEventListener('submit', cadastrarPessoa);
+	inputBusca.addEventListener('input', buscarPessoa);
+</script>
+</body>
+</html>

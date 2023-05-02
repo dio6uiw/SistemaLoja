@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sistema de venda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <p class="comp">Olá, <b>Ana!</b></p>
+        <p class="educ">Tenha um bom dia!</p>
+    </header>
+    <main>
+    <h3>Cadastro de cliente</h3>
+    <form>
+      <input type="text" id="nome" name="nome" placeholder="Nome completo"><br>
+      <input type="text" id="telefone" name="telefone" placeholder="Telefone"><br>
+      <input type="text" id="CPF" name="CPF" placeholder="CPF"><br>
+      <button type="button" id="salvar">Cadastrar</button>
+      <p id="mensagem-sucesso" style="display: none;">Cadastro realizado com sucesso!</p>
+    </form>
+        <div class="links">
+            <button class="RVendas">Registrar Venda</button></a><br>
+            <button class="RPagamentos">Recibo de Pagamento</button><br>
+            <button class="VPagamentos">Verificar Pagamento</button><br>
+            <button class="RPedidos">Registrar Pedido</button><br>
+            <button class="catalogo">Catálogo</button>
+        </div>
+
+        <script>
+            // função para salvar as informações no localStorage
+            function salvarPessoa() {
+              // pegar as informações do formulário
+              const nome = document.getElementById('nome').value;
+              const telefone = document.getElementById('telefone').value;
+              const CPF = document.getElementById('CPF').value;
+      
+              // criar um objeto com as informações
+              const pessoa = {
+                nome: nome,
+                telefone: telefone,
+                CPF: CPF
+              };
+      
+              // salvar o objeto no localStorage com uma chave única
+              localStorage.setItem(nome, JSON.stringify(pessoa));
+      
+              // limpar os campos do formulário
+              document.getElementById('nome').value = '';
+              document.getElementById('telefone').value = '';
+              document.getElementById('CPF').value = '';
+              
+              // exibir mensagem de sucesso
+              const mensagemSucesso = document.getElementById('mensagem-sucesso');
+              mensagemSucesso.style.display = 'block';
+            }
+            
+  
+            // adicionar um evento de clique ao botão de salvar
+            const botaoSalvar = document.getElementById('salvar');
+            botaoSalvar.addEventListener('click', salvarPessoa);
+          </script>
+    </main>
+</body>
+</html>

@@ -5,14 +5,15 @@
     <link rel="stylesheet" href="pedido.css">
 </head>
 <body>
-	<h1>Sistema de Notas</h1>
+	<header>
+		<img class="home" src="home.png" alt="Home">
+		<h3>PEDIDOS</h3>
+	</header>
 	<form>
-		<label for="nome">Nome:</label>
-		<input type="text" id="nome" name="nome"><br><br>
-		<label for="nota">Nota:</label>
-		<textarea id="nota" name="nota"></textarea><br><br>
+		<input type="text" id="nome" name="nome" placeholder="Nome"><br><br>
+		<textarea id="nota" name="nota" placeholder="Pedido"></textarea><br><br>
 		<input type="hidden" id="indice" name="indice" value="">
-		<input type="button" value="Salvar Nota" onclick="salvarNota()">
+		<input class="botao" type="button" value="Salvar Pedido" onclick="salvarNota()">
 	</form>
 
 	<div id="notas"></div>
@@ -44,7 +45,7 @@
 			document.getElementById("indice").value = "";
 
 			// Atualiza o botão "Salvar Nota" para "Adicionar Nota"
-			document.querySelector("input[type=button]").value = "Salvar Nota";
+			document.querySelector("input[type=button]").value = "Salvar Pedido";
 
 			// Atualiza a lista de notas na página
 			atualizarNotas();
@@ -61,7 +62,7 @@
 
 			// Adiciona cada nota como um novo parágrafo com botões "Editar" e "Deletar"
 			notas.forEach(function(nota, index) {
-				var notaHTML = "<p><b>" + nota.nome + "</b>: " + nota.nota + " ";
+				var notaHTML = "<p><b>" + nota.nome + "</b>: " + nota.nota + "<br>";
 				notaHTML += "<button onclick='editarNota(" + index + ")'>Editar</button> ";
 				notaHTML += "<button onclick='deletarNota(" + index + ")'>Deletar</button></p>";
 				notasDiv.innerHTML += notaHTML;
@@ -94,7 +95,7 @@
 		document.getElementById("indice").value = index;
 
 		// Atualiza o botão "Salvar Nota" para "Atualizar Nota"
-		document.querySelector("input[type=button]").value = "Atualizar Nota";
+		document.querySelector("input[type=button]").value = "Atualizar Pedido";
 	}
 
 	// Chama a função atualizarNotas para exibir a lista de notas na página

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Busca de cliente</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script>
+    // função para buscar as informações do localStorage
+    function buscarPessoa() {
+      // pegar o nome buscado pelo usuário
+      const nomeBuscado = document.getElementById('nome-buscado').value;
+      
+      // verificar se existe um objeto com esse nome no localStorage
+      const pessoaEncontrada = JSON.parse(localStorage.getItem(nomeBuscado));
+      
+      // exibir as informações encontradas na tela
+      if (pessoaEncontrada) {
+        document.getElementById('nome').textContent = pessoaEncontrada.nome;
+        document.getElementById('telefone').textContent = pessoaEncontrada.telefone;
+        document.getElementById('cpf').textContent = pessoaEncontrada.cpf;
+      } else {
+        alert('Cliente não encontrado!');
+      }
+    }
+    
+    // função para gerar o PDF com as informações encontradas
+    function gerarPDF() {
+    const doc = new jsPDF();
+  
+      // pegar as informações do cliente na tela
+      const nome = document.getElementById('nome').textContent;
+      const telefone = document.getElementById('telefone').textContent;
+      const cpf = document.getElementById('cpf').textContent;
+  
+      // Adiciona os campos preenchidos ao PDF
+      for (var i = 1; i < contadorCampos; i++) {
+                var nomeProduto = document.getElementById("nomeProduto" + i).value;
+                var preco = parseFloat(document.getElementById("preco" + i).value);
+                var quantidade = parseInt(document.getElementById("quantidade" + i).value);
+  
+                if (!isNaN(preco) && !isNaN(quantidade)) {
+                    doc.text(nomeProduto + " - R$ " + preco.toFixed(2) + " x " + quantidade + " unidades", 10, 60 + i * 10);
+                }
+            }
+  
+            // Adiciona o valor total ao PDF
+            var total = parseFloat(document.getElementById("total").innerHTML);
+            doc.text("Total: R$ " + total.toFixed(2), 10, (contadorCampos + 10) * 10);
+  
+      
+      // gerar o PDF com as informações encontradas
+      doc.text(`Nome: ${nome}`, 10, 90);
+      doc.text(`Telefone: ${telefone}`, 10, 100);
+      doc.text(`CPF: ${cpf}`, 10, 110);
+     
+      doc.save(`${nome} nota de venda.pdf`);
+      alert('PDF gerado com sucesso!');
+    }
+  </script>
+</head>
+<body>
+	<main>
+		<h3>Busca de cliente</h3>
+		<form>
+			<input type="text" id="nome-buscado" name="nome-buscado" placeholder="Nome completo"><br>
+			<button type="button" id="buscar">Buscar</button>
+		</form>
+    <img id="logo" src="logo.png" style="display:none">
+    <br>
+    <input type="text" id="data" name="data" placeholder="Data da venda">
+    <br>
+    <br>
+    <button onclick="adicionarCampo()">Adicionar produto</button>
+    <div id="campos"></div>
+    <p></b>Valor total da compra: <span id="total"></span></b></p>
+
+		<div id="informacoes">
+			<p><strong>Nome:</strong> <span id="nome"></span></p>
+			<p><strong>Telefone:</strong> <span id="telefone"></span></p>
+			<p><strong>CPF:</strong> <span id="cpf"></span></p>
+		</div>
+		<button type="button" id="gerar-pdf">Gerar PDF</button>
+	</main>
+	<script>
+    //foramatar data
+    const dataInput = document.getElementById("data");
+        dataInput.addEventListener("input", function() {
+        const data = dataInput.value;
+        if (data.length === 2 || data.length === 5) {
+            dataInput.value += "/";
+        }
+        });
+
+        var contadorCampos = 1;
+
+        function adicionarCampo() {
+
+            // Cria elementos HTML para o novo campo
+            var novoCampo = document.createElement("div");
+            novoCampo.innerHTML = `
+            <br>
+                <p>Informações do produto:</p>
+                <input type="text" name="nomeProduto${contadorCampos}" id="nomeProduto${contadorCampos}" placeholder="Nome do produto"><br>
+                
+                <input type="text" name="preco${contadorCampos}" id="preco${contadorCampos}" onchange="atualizarTotal()" placeholder="Valor"><br>
+                
+                <input type="number" name="quantidade${contadorCampos}" id="quantidade${contadorCampos}" onchange="atualizarTotal()" placeholder="Quantidade"><br>
+            <br>
+            `;
+
+            // Adiciona o novo campo à div de campos
+            var divCampos = document.getElementById("campos");
+            divCampos.appendChild(novoCampo);
+
+            // Atualiza o contador de campos
+            contadorCampos++;
+        }
+
+        function atualizarTotal() {
+            var total = 0;
+
+            // Percorre todos os campos de preço e quantidade e calcula a soma total
+            for (var i = 1; i < contadorCampos; i++) {
+                var preco = parseFloat(document.getElementById("preco" + i).value);
+                var quantidade = parseInt(document.getElementById("quantidade" + i).value);
+
+                if (!isNaN(preco) && !isNaN(quantidade)) {
+                    total += preco * quantidade;
+                }
+            }
+
+            // Atualiza o valor total na página
+            document.getElementById("total").innerHTML = total.toFixed(2);
+        }
+
+		// adicionar um evento de clique ao botão de buscar
+		const botaoBuscar = document.getElementById('buscar');
+		botaoBuscar.addEventListener('click', buscarPessoa);
+
+		// adicionar um evento de clique ao botão de gerar PDF
+		const botaoGerarPDF = document.getElementById('gerar-pdf');
+		botaoGerarPDF.addEventListener('click', gerarPDF);
+	</script>
+</body>
+</html>

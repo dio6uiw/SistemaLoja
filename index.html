@@ -14,7 +14,7 @@
     <form>
       <input type="text" id="nome" name="nome" placeholder="Nome completo"><br>
       <input type="text" id="telefone" name="telefone" placeholder="Telefone"><br>
-      <input type="text" id="CPF" name="CPF" placeholder="CPF"><br>
+      <input type="text" id="cpf" name="cpf" placeholder="cpf"><br>
       <button type="button" id="salvar">Cadastrar</button>
       <p id="mensagem-sucesso" style="display: none;">Cadastro realizado com sucesso!</p>
     </form>
@@ -32,13 +32,13 @@
               // pegar as informações do formulário
               const nome = document.getElementById('nome').value;
               const telefone = document.getElementById('telefone').value;
-              const CPF = document.getElementById('CPF').value;
+              const cpf = document.getElementById('cpf').value;
       
               // criar um objeto com as informações
               const pessoa = {
                 nome: nome,
                 telefone: telefone,
-                CPF: CPF
+                cpf: cpf
               };
       
               // salvar o objeto no localStorage com uma chave única
@@ -47,14 +47,13 @@
               // limpar os campos do formulário
               document.getElementById('nome').value = '';
               document.getElementById('telefone').value = '';
-              document.getElementById('CPF').value = '';
+              document.getElementById('cpf').value = '';
               
               // exibir mensagem de sucesso
               const mensagemSucesso = document.getElementById('mensagem-sucesso');
               mensagemSucesso.style.display = 'block';
             }
             
-  
             // adicionar um evento de clique ao botão de salvar
             const botaoSalvar = document.getElementById('salvar');
             botaoSalvar.addEventListener('click', salvarPessoa);

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="clientName">Nome do cliente:</label>
+        <input type="text" id="clientName" name="clientName"><br>
+      
+        <label for="paymentMethod">Forma de pagamento:</label>
+        <select id="paymentMethod" name="paymentMethod">
+          <option value="creditCard">Cartão de crédito</option>
+          <option value="debitCard">Cartão de débito</option>
+          <option value="cash">Dinheiro</option>
+        </select><br>
+      
+        <label for="installments">Quantidade de parcelas:</label>
+        <input type="number" id="installments" name="installments" min="1" max="12" value="1"><br>
+      
+        <label for="paymentMonth">Mês de início do pagamento:</label>
+        <input type="month" id="paymentMonth" name="paymentMonth"><br>
+      
+        <input type="submit" value="Cadastrar">
+      </form>
+      
+</body>
+</html>

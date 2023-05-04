@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Vendas</title>
+  </head>
+  <body>
+    <h1>Cadastro de Vendas</h1>
+    <form id="formulario">
+      <label for="valor">Valor da Venda:</label>
+      <input type="number" id="valor" name="valor" required><br><br>
+
+      <label for="cliente">Nome do Cliente:</label>
+      <input type="text" id="cliente" name="cliente" required><br><br>
+
+      <label for="data">Data da Venda:</label>
+      <input type="date" id="data" name="data" required><br><br>
+
+      <label for="forma-pagamento">Forma de Pagamento:</label>
+      <select id="forma-pagamento" name="forma-pagamento" required>
+        <option value="">Selecione a forma de pagamento</option>
+        <option value="cartao-credito">Cartão de Crédito</option>
+        <option value="cartao-debito">Cartão de Débito</option>
+        <option value="dinheiro">Dinheiro</option>
+        <option value="cheque">Cheque</option>
+      </select><br><br>
+
+      <label for="parcelas">Quantidade de Parcelas:</label>
+      <input type="number" id="parcelas" name="parcelas"><br><br>
+
+      <label for="valor-parcelas">Valor das Parcelas:</label>
+      <input type="number" id="valor-parcelas" name="valor-parcelas"><br><br>
+
+      <input type="submit" value="Cadastrar Venda">
+    </form>
+
+    <script>
+      const form = document.querySelector('#formulario');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const valor = form.valor.value;
+        const cliente = form.cliente.value;
+        const data = form.data.value;
+        const formaPagamento = form['forma-pagamento'].value;
+        const parcelas = form.parcelas.value || 1;
+        const valorParcelas = form['valor-parcelas'].value || valor/parcelas;
+        
+        console.log('Valor: ', valor);
+        console.log('Cliente: ', cliente);
+        console.log('Data: ', data);
+        console.log('Forma de Pagamento: ', formaPagamento);
+        console.log('Quantidade de Parcelas: ', parcelas);
+        console.log('Valor das Parcelas: ', valorParcelas);
+        
+        // Aqui você pode enviar os dados para um servidor ou salvar no localStorage, por exemplo.
+        
+        // Depois de processar os dados, você pode limpar o formulário.
+        form.reset();
+      });
+    </script>
+  </body>
+</html>

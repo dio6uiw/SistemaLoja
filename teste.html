@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Devedores</title>
+  </head>
+  <body>
+    <h1>Devedores</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Mês</th>
+          <th>Devedor</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-devedores">
+      </tbody>
+    </table>
+
+    <script>
+      const vendas = JSON.parse(localStorage.getItem('vendas')) || [];
+
+      // Agrupa as vendas por mês e por cliente.
+      const vendasPorMes = {};
+      for (const venda of vendas) {
+        const mes = new Date(venda.data).toLocaleString('default', { month: 'long', year: 'numeric' });
+        vendasPorMes[mes] = vendasPorMes[mes] || {};
+        vendasPorMes[mes][venda.cliente] = vendasPorMes[mes][venda.cliente] || 0;
+        vendasPorMes[mes][venda.cliente] += venda.valor;
+      }
+
+      // Cria uma tabela HTML com os devedores de cada mês.
+      const tabelaDevedores = document.querySelector('#tabela-devedores');
+      for (const mes in vendasPorMes) {
+        const devedores = vendasPorMes[mes];
+        for (const cliente in devedores) {
+          const valor = devedores[cliente];
+
+          const row = document.createElement('tr');
+          const colMes = document.createElement('td');
+          const colCliente = document.createElement('td');
+          const colValor = document.createElement('td');
+
+          colMes.textContent = mes;
+          colCliente.textContent = cliente;
+          colValor.textContent = valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+          row.appendChild(colMes);
+          row.appendChild(colCliente);
+          row.appendChild(colValor);
+          tabelaDevedores.appendChild(row);
+        }
+      }
+    </script>
+  </body>
+</html>
